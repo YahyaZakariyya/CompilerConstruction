@@ -11,8 +11,9 @@ class Lexer:
             ("KEYWORD", r"\b(gimme|yo|say|keepdoing|nah)\b"),  # Prioritize keywords
             ("NUMBER", r"\d+"),
             ("IDENTIFIER", r"[a-zA-Z_][a-zA-Z0-9_]*"),
+            ("COMPOP", r"==|!=|<=|>=|<|>"),
             ("ASSIGN", r"="),
-            ("COMPOP", r"[<>!=]=?|=="),
+            # ("COMPOP", r"[<>!=]=?|=="),
             ("OP", r"[+\-*/]"),
             ("SEMICOLON", r";"),
             ("LPAREN", r"\("),
@@ -33,6 +34,5 @@ class Lexer:
                 value = value.strip('"')
             elif kind == "SKIP" or kind == "NEWLINE":
                 continue
-            print((kind, value))
             self.tokens.append((kind, value))
         return self.tokens

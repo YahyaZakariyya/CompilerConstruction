@@ -78,6 +78,7 @@ class Parser:
     def _parse_print(self):
         self._consume("KEYWORD", "say")
         value = self._consume("STRING")[1]
+        # value = self._parse_expression()
         return {
             "type": "Print",
             "value": value
@@ -103,17 +104,6 @@ class Parser:
             if self.current_token and self.current_token[0] == "SEMICOLON":
                 self._consume("SEMICOLON")
         return statements
-
-    # def _parse_expression(self):
-    #     token = self.current_token
-    #     if token[0] == "NUMBER":
-    #         self._consume("NUMBER")
-    #         return {"type": "Number", "value": int(token[1])}
-    #     elif token[0] == "IDENTIFIER":
-    #         self._consume("IDENTIFIER")
-    #         return {"type": "Variable", "name": token[1]}
-    #     else:
-    #         raise SyntaxError(f"Unexpected token in expression: {token}")
         
     def _parse_if(self):
         self._consume("KEYWORD", "yo")
@@ -139,18 +129,6 @@ class Parser:
         }
 
     def _parse_expression(self):
-        # # First check if it's a simple term (number, string, or variable)
-        # if self.current_token[0] in ["NUMBER", "STRING", "IDENTIFIER"]:
-        #     token = self.current_token
-        #     self._consume(token[0])
-        #     if token[0] == "NUMBER":
-        #         return {"type": "Number", "value": int(token[1])}
-        #     elif token[0] == "STRING":
-        #         return {"type": "String", "value": token[1]}
-        #     else:
-        #         return {"type": "Variable", "name": token[1]}
-        
-        # If not, parse as a potentially complex expression
         left = self._parse_term()
         
         while self.current_token and self.current_token[0] == "OP":
@@ -184,3 +162,7 @@ class Parser:
         else:
             raise SyntaxError(f"Unexpected token in expression: {token}")
         
+if __name__ == "__main__":
+    print("This is main function")
+    tokens = [('KEYWORD', 'gimme'), ('IDENTIFIER', 'x'), ('ASSIGN', '='), ('NUMBER', 10), ('SEMICOLON', ';'), ('KEYWORD', 'gimme'), ('IDENTIFIER', 'y'), ('ASSIGN', '='), ('NUMBER', 20), ('SEMICOLON', ';'), ('KEYWORD', 'yo'), ('LPAREN', '('), ('IDENTIFIER', 'x'), ('COMPOP', '<'), ('IDENTIFIER', 'y'), ('RPAREN', ')'), ('LBRACE', '{'), ('KEYWORD', 'say'), ('STRING', 'x is less than y'), ('SEMICOLON', ';'), ('RBRACE', '}'), ('KEYWORD', 'yo'), ('LPAREN', '('), ('IDENTIFIER', 'x'), ('COMPOP', '=='), ('IDENTIFIER', 'y'), ('RPAREN', ')'), ('LBRACE', '{'), ('KEYWORD', 'say'), ('STRING', 'x equals y'), ('SEMICOLON', ';'), ('RBRACE', '}'), ('KEYWORD', 'nah'), ('LBRACE', '{'), ('KEYWORD', 'say'), ('STRING', 'x is not equal to y'), ('SEMICOLON', ';'), ('RBRACE', '}')]
+    parser = Parser(tokens)

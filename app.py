@@ -20,8 +20,8 @@ def compile_code():
         parser = Parser(tokens)
         parse_tree = parser.parse()
         interpreter = Interpreter(parse_tree)
-        interpreter.execute()
-        return jsonify({"parse_tree": parse_tree}), 200
+        output = interpreter.execute()
+        return jsonify({"parse_tree": parse_tree, "output": output}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
